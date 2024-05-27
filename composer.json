@@ -1,0 +1,7 @@
+{
+    "name": "hexlet/code",
+    "description": "Second project on Hexlet",
+    "require": {
+        "docopt/docopt": "^1.0"
+    }
+}
