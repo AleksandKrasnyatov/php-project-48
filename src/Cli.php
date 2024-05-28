@@ -2,6 +2,8 @@
 
 namespace Package\Cli;
 
+use Docopt;
+
 function document()
 {
     $doc = <<<DOC
@@ -18,7 +20,7 @@ function document()
     
     DOC;
     
-    $result = Docopt::handle($doc, array('version'=>'1.0'));
+    $result = Docopt::handle($doc, array('version'=>'Generate diff 1.0'));
     foreach ($result as $k=>$v)
         echo $k.': '.json_encode($v).PHP_EOL;
 }

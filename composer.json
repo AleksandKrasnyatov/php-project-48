@@ -10,6 +10,6 @@
         ]
     },
     "require": {
-        "docopt/docopt": "^1.2"
+        "docopt/docopt": "^1.0"
     }
 }
