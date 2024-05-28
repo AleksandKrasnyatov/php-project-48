@@ -1,7 +1,15 @@
 {
     "name": "hexlet/code",
     "description": "Second project on Hexlet",
+    "bin": [
+        "bin/gendiff"
+    ],
+    "autoload": {
+        "files": [ 
+            "src/Cli.php"
+        ]
+    },
     "require": {
-        "docopt/docopt": "^1.0"
+        "docopt/docopt": "^1.2"
     }
 }
