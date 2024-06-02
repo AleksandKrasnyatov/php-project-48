@@ -28,7 +28,7 @@ function genDiff(string $pathToFile1, string $pathToFile2): string
 function compareArrays(array $arr1, array $arr2): array
 {
     $result = [];
-    $allUniqueKeys = array_keys(array_merge($arr1, $arr2)); 
+    $allUniqueKeys = array_keys(array_merge($arr1, $arr2));
     sort($allUniqueKeys);
     foreach ($allUniqueKeys as $key) {
         if (!array_key_exists($key, $arr1)) {
@@ -56,26 +56,4 @@ function render(array $items): string
     }
     $resultStr = implode("\n", $resultArray);
     return "{" . "\n" . $resultStr . "\n" . "}" . "\n";
-}
-
-function compareArraysYoing(array $arr1, array $arr2): array
-{
-    $result = [];
-    foreach ($arr1 as $key1 => $item1) {
-        if (array_key_exists($key1, $arr2)) {
-            if ($item1 != $arr2[$key1]) {
-                $result[$key1 . '1'] = '- ' . $key1 . ": " . var_export($item1, true); 
-                $result[$key1 . '2'] = '+ ' . $key1 . ": " . var_export($arr2[$key1], true); 
-            } else {
-                $result[$key1] = $key1 . ": " . var_export($item1, true);
-            }
-            unset($arr2[$key1]);
-        } else {
-            $result[$key1] = '- ' . $key1 . ": " . var_export($item1, true); 
-        }
-    }
-    foreach ($arr2 as $key2 => $item2) {
-        $result[$key2] = '+ ' . $key2 . ": " . var_export($item2, true);
-    }
-    return $result;
 }
