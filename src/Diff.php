@@ -36,7 +36,7 @@ function compareArrays(array $arr1, array $arr2): array
         } elseif (!array_key_exists($key, $arr2)) {
             $result["- {$key}"] = $arr1[$key];
         } elseif ($arr1[$key] === $arr2[$key]) {
-            $result[$key] = $arr1[$key];
+            $result["  {$key}"] = $arr1[$key];
         } else {
             $result["- {$key}"] = $arr1[$key];
             $result["+ {$key}"] = $arr2[$key];
