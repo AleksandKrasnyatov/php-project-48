@@ -1,0 +1,21 @@
+name: self-check
+
+on: push
+jobs:
+
+  install:
+
+    runs-on: ubuntu-latest
+    steps:
+
+      - uses: actions/checkout@v3
+
+      - run: make install
+
+      - run: make lint
+
+      - run: make test
+
+      - run: codeclimate test-reporter
+        env:
+          CODECLIMATE_API_TOKEN: ${{ secrets.CODECLIMATE_API_TOKEN }}
