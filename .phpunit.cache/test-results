@@ -1,0 +1,1 @@
+{"version":1,"defects":{"Package\\Phpunit\\Diff\\DiffTest::testJson":8,"Package\\Phpunit\\Diff\\DiffTest::testYaml":8,"Package\\Phpunit\\Diff\\DiffTest::testFindingError":8},"times":{"Package\\Phpunit\\Diff\\DiffTest::testJson":0.003,"Package\\Phpunit\\Diff\\DiffTest::testYaml":0.003,"Package\\Phpunit\\Diff\\DiffTest::testFindingError":0.003}}

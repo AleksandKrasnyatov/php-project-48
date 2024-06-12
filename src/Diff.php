@@ -2,24 +2,23 @@
 
 namespace Package\Diff;
 
+use function Package\Parsers\parse;
+
 function genDiff(string $pathToFile1, string $pathToFile2): string
 {
-    $path1 = realpath($pathToFile1);
-    $path2 = realpath($pathToFile2);
+    $file1 = realpath($pathToFile1);
+    $file2 = realpath($pathToFile2);
 
-    if ($path1 === false || $path2 === false) {
+    if ($file1 === false || $file2 === false) {
         return "Error! Can't find the file(-s)!";
     }
 
-    if (!file_exists($path1) || !file_exists($path2)) {
+    if (!file_exists($file1) || !file_exists($file2)) {
         return "Error! File(-s) doesn't exists!";
     }
 
-    $json1 = file_get_contents($path1);
-    $json2 = file_get_contents($path2);
-
-    $content1 = json_decode($json1, true);
-    $content2 = json_decode($json2, true);
+    $content1 = parse($file1);
+    $content2 = parse($file2);
 
     $differences = compareArrays($content1, $content2);
     return render($differences);
