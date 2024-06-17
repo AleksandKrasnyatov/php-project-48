@@ -32,11 +32,8 @@ function render($value, string $replacer = ' ', int $spacesCount = 4): string
                 array_keys($currentValue),
                 $currentValue
             );
-    
         }
-       
         $result = ['{', ...$lines, "{$bracketIndent}}"];
-
         return implode("\n", $result);
     };
 
