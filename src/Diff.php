@@ -3,8 +3,9 @@
 namespace Package\Diff;
 
 use function Package\Parsers\parse;
+use function Package\Stylish\render as stylishRender;
 
-function genDiff(string $pathToFile1, string $pathToFile2): string
+function genDiff(string $pathToFile1, string $pathToFile2, string $format): string
 {
     $file1 = realpath($pathToFile1);
     $file2 = realpath($pathToFile2);
@@ -20,39 +21,52 @@ function genDiff(string $pathToFile1, string $pathToFile2): string
     $content1 = parse($file1);
     $content2 = parse($file2);
 
-    $differences = compareArrays($content1, $content2);
-    return render($differences);
+    $differences = compare($content1, $content2);
+    return render($differences, $format);
 }
 
-function compareArrays(array $arr1, array $arr2): array
+function compare($data1, $data2): array
 {
     $result = [];
-    $allUniqueKeys = array_keys(array_merge($arr1, $arr2));
+    $usedKeys = [];
+    $keys1 = getObjectKeys($data1);
+    $keys2 = getObjectKeys($data2);
+    $allUniqueKeys = array_merge($keys1, $keys2);
     sort($allUniqueKeys);
     foreach ($allUniqueKeys as $key) {
-        if (!array_key_exists($key, $arr1)) {
-            $result["+ {$key}"] = $arr2[$key];
-        } elseif (!array_key_exists($key, $arr2)) {
-            $result["- {$key}"] = $arr1[$key];
-        } elseif ($arr1[$key] === $arr2[$key]) {
-            $result["  {$key}"] = $arr1[$key];
+        if (!property_exists($data1, $key)) {
+            $result["+ {$key}"] = $data2->$key;
+        } elseif (!property_exists($data2, $key)) {
+            $result["- {$key}"] = $data1->$key;
+        } elseif (is_object($data1->$key) && is_object($data2->$key)) {
+            $result["  {$key}"] = compare($data1->$key, $data2->$key);
+        } elseif ($data1->$key === $data2->$key) {
+            $result["  {$key}"] = $data1->$key;
         } else {
-            $result["- {$key}"] = $arr1[$key];
-            $result["+ {$key}"] = $arr2[$key];
+            $result["- {$key}"] = $data1->$key;
+            $result["+ {$key}"] = $data2->$key;
         }
     }
     return $result;
 }
 
-function render(array $items): string
+function getObjectKeys($data): array
 {
-    $resultArray = [];
-    foreach ($items as $key => $item) {
-        if (!is_string($item)) {
-            $item = var_export($item, true);
-        }
-        $resultArray[] = "  {$key}: {$item}";
+    $keys = [];
+    foreach ($data as $key => $value) {
+        $keys[] = $key;
     }
-    $resultStr = implode("\n", $resultArray);
-    return "{" . "\n" . $resultStr . "\n" . "}" . "\n";
+    return $keys;
+}
+
+function render(array $items, string $format): string
+{
+    switch ($format) {
+        case 'yml':
+            return '';
+        case 'stylish':
+            return stylishRender($items);
+        default:
+            return stylishRender($items);
+    }
 }

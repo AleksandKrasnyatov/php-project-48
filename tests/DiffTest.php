@@ -13,7 +13,7 @@ class DiffTest extends TestCase
         $expected = file_get_contents(__DIR__ . "/fixtures/expected1step.txt");
         $first = __DIR__ . "/fixtures/file1.json";
         $second = __DIR__ . "/fixtures/file2.json";
-        $this->assertEquals(genDiff($first, $second), $expected);
+        $this->assertEquals(genDiff($first, $second, 'stylish'), $expected);
     }
 
     public function testYaml(): void
@@ -21,6 +21,14 @@ class DiffTest extends TestCase
         $expected = file_get_contents(__DIR__ . "/fixtures/expected1step.txt");
         $first = __DIR__ . "/fixtures/file1.yml";
         $second = __DIR__ . "/fixtures/file2.yml";
-        $this->assertEquals(genDiff($first, $second), $expected);
+        $this->assertEquals(genDiff($first, $second, 'stylish'), $expected);
+    }
+
+    public function testRecursion(): void
+    {
+        $expected = file_get_contents(__DIR__ . "/fixtures/expected6step.txt");
+        $first = __DIR__ . "/fixtures/file61.yml";
+        $second = __DIR__ . "/fixtures/file62.yml";
+        $this->assertEquals(genDiff($first, $second, 'stylish'), $expected);
     }
 }

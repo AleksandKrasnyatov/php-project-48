@@ -10,3 +10,6 @@ https://asciinema.org/a/aEjg9Y9FT1OBbHFCU4EUfMQhy
 
 # Asciinema recording of comparing 2 yml files:
 https://asciinema.org/a/QF99RvImXnaOgCk3aKj4NSzRI
+
+# Asciinema recording of comparing 2 files with recursion:
+https://asciinema.org/a/2i21Gigr5FGeItcDtx1vQGHez
