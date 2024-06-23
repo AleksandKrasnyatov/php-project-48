@@ -1,14 +1,8 @@
 <?php
 
-namespace Package\Stylish;
+namespace Package\Formatters\Stylish;
 
-function toString($value)
-{
-    if (is_null($value)) {
-        return trim('null', "'");
-    }
-    return trim(var_export($value, true), "'");
-}
+use function Package\Formatters\toString;
 
 function render($value, string $replacer = ' ', int $spacesCount = 4): string
 {
@@ -28,7 +22,9 @@ function render($value, string $replacer = ' ', int $spacesCount = 4): string
             }
         } else {
             $lines = array_map(
-                fn($key, $val) => "{$currentIndentArr}{$key}: {$iter($val, $depth + 1)}",
+                function ($key, $val) use ($iter, $depth, $currentIndentArr) {
+                    return "{$currentIndentArr}{$key}: {$iter($val, $depth + 1)}";
+                },
                 array_keys($currentValue),
                 $currentValue
             );

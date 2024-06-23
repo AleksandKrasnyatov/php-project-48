@@ -31,4 +31,12 @@ class DiffTest extends TestCase
         $second = __DIR__ . "/fixtures/file62.yml";
         $this->assertEquals(genDiff($first, $second, 'stylish'), $expected);
     }
+
+    public function testPlain(): void
+    {
+        $expected = file_get_contents(__DIR__ . "/fixtures/expected7step.txt");
+        $first = __DIR__ . "/fixtures/file61.yml";
+        $second = __DIR__ . "/fixtures/file62.yml";
+        $this->assertEquals(genDiff($first, $second, 'plain'), $expected);
+    }
 }

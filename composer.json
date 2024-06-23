@@ -8,7 +8,9 @@
         "files": [ 
             "src/Diff.php",
             "src/Parsers.php",
-            "src/Stylish.php"
+            "src/Formatters.php",
+            "src/Formatters/Plain.php",
+            "src/Formatters/Stylish.php"
         ]
     },
     "require": {

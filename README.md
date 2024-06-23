@@ -13,3 +13,6 @@ https://asciinema.org/a/QF99RvImXnaOgCk3aKj4NSzRI
 
 # Asciinema recording of comparing 2 files with recursion:
 https://asciinema.org/a/2i21Gigr5FGeItcDtx1vQGHez
+
+# Asciinema recording of comparing 2 files to plain format:
+https://asciinema.org/a/altKN6IFGLazahKsvWFiBCaFK

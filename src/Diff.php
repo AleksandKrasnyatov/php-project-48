@@ -3,7 +3,7 @@
 namespace Package\Diff;
 
 use function Package\Parsers\parse;
-use function Package\Stylish\render as stylishRender;
+use function Package\Formatters\render;
 
 function genDiff(string $pathToFile1, string $pathToFile2, string $format): string
 {
@@ -21,11 +21,16 @@ function genDiff(string $pathToFile1, string $pathToFile2, string $format): stri
     $content1 = parse($file1);
     $content2 = parse($file2);
 
-    $differences = compare($content1, $content2);
+    $plain = false;
+    if ($format === "plain") {
+        $plain = true;
+    }
+
+    $differences = compare($content1, $content2, $plain);
     return render($differences, $format);
 }
 
-function compare($data1, $data2): array
+function compare($data1, $data2, $plain = false): array
 {
     $result = [];
     $usedKeys = [];
@@ -39,12 +44,16 @@ function compare($data1, $data2): array
         } elseif (!property_exists($data2, $key)) {
             $result["- {$key}"] = $data1->$key;
         } elseif (is_object($data1->$key) && is_object($data2->$key)) {
-            $result["  {$key}"] = compare($data1->$key, $data2->$key);
+            $result["  {$key}"] = compare($data1->$key, $data2->$key, $plain);
         } elseif ($data1->$key === $data2->$key) {
             $result["  {$key}"] = $data1->$key;
         } else {
-            $result["- {$key}"] = $data1->$key;
-            $result["+ {$key}"] = $data2->$key;
+            if ($plain) {
+                $result["-+{$key}"] = [$data1->$key, $data2->$key];
+            } else {
+                $result["- {$key}"] = $data1->$key;
+                $result["+ {$key}"] = $data2->$key;
+            }
         }
     }
     return $result;
@@ -57,16 +66,4 @@ function getObjectKeys($data): array
         $keys[] = $key;
     }
     return $keys;
-}
-
-function render(array $items, string $format): string
-{
-    switch ($format) {
-        case 'yml':
-            return '';
-        case 'stylish':
-            return stylishRender($items);
-        default:
-            return stylishRender($items);
-    }
 }
