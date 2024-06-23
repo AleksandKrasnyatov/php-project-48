@@ -7,7 +7,6 @@ use function Package\Formatters\toString;
 function render($value): string
 {
     $iter = function ($currentValue, $keys, $action = '') use (&$iter) {
-
         $property = implode(".", $keys);
         if ($action === "added") {
             $currentValue = handleValue($currentValue);
@@ -18,8 +17,6 @@ function render($value): string
             $currentValue = handleValue($currentValue, true);
             return "Property '{$property}' was updated. From {$currentValue[0]} to $currentValue[1]";
         }
-
-
         $lines = [];
         foreach ($currentValue as $key => $val) {
             $prefix = mb_substr($key, 0, 2);
@@ -35,7 +32,6 @@ function render($value): string
                 $lines[] = $iter([$val[0], $val[1]], $curKeys, "diff");
             }
         }
-
         return implode("\n", $lines);
     };
     return "{$iter($value, [], '')}\n";

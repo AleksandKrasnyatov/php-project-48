@@ -32,6 +32,5 @@ function render($value, string $replacer = ' ', int $spacesCount = 4): string
         $result = ['{', ...$lines, "{$bracketIndent}}"];
         return implode("\n", $result);
     };
-
     return "{$iter($value, 1)}\n";
 }

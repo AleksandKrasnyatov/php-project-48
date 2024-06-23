@@ -39,4 +39,12 @@ class DiffTest extends TestCase
         $second = __DIR__ . "/fixtures/file62.yml";
         $this->assertEquals(genDiff($first, $second, 'plain'), $expected);
     }
+
+    public function testJsonFormat(): void
+    {
+        $expected = file_get_contents(__DIR__ . "/fixtures/expected8step.json");
+        $first = __DIR__ . "/fixtures/file61.json";
+        $second = __DIR__ . "/fixtures/file62.json";
+        $this->assertEquals(genDiff($first, $second, 'json'), $expected);
+    }
 }

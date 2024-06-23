@@ -16,3 +16,6 @@ https://asciinema.org/a/2i21Gigr5FGeItcDtx1vQGHez
 
 # Asciinema recording of comparing 2 files to plain format:
 https://asciinema.org/a/altKN6IFGLazahKsvWFiBCaFK
+
+# Asciinema recording of comparing 2 files to json format:
+https://asciinema.org/a/9oZwuLZ8KWFf39c9n8gyEtIs6
