@@ -6,7 +6,7 @@ use function Package\Formatters\toString;
 
 function render(array $value, string $replacer = ' ', int $spacesCount = 4): string
 {
-    $iter = function ($currentValue, $depth) use (&$iter, $replacer, $spacesCount) {
+    $iter = function (mixed $currentValue, int $depth) use (&$iter, $replacer, $spacesCount) {
         if (!is_array($currentValue) && !is_object($currentValue)) {
             return toString($currentValue);
         }

@@ -21,10 +21,7 @@ function genDiff(string $pathToFile1, string $pathToFile2, string $format = 'sty
     $content1 = parse($file1);
     $content2 = parse($file2);
 
-    $plain = false;
-    if ($format === "plain") {
-        $plain = true;
-    }
+    $plain = $format === "plain";
 
     $differences = compare($content1, $content2, $plain);
     return render($differences, $format);
@@ -37,7 +34,7 @@ function compare(object $data1, object $data2, bool $plain = false): array
     $keys1 = getObjectKeys($data1);
     $keys2 = getObjectKeys($data2);
     $allUniqueKeys = array_merge($keys1, $keys2);
-    sort($allUniqueKeys);
+    $sortingRes = sort($allUniqueKeys);
     foreach ($allUniqueKeys as $key) {
         if (!property_exists($data1, $key)) {
             $result["+ {$key}"] = $data2->$key;
@@ -59,7 +56,7 @@ function compare(object $data1, object $data2, bool $plain = false): array
     return $result;
 }
 
-function getObjectKeys(object $data): array
+function getObjectKeys(\stdClass $data): array
 {
     $keys = [];
     foreach ($data as $key => $value) {
