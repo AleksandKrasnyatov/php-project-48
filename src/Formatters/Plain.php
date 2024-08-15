@@ -4,7 +4,7 @@ namespace Package\Formatters\Plain;
 
 use function Package\Formatters\toString;
 
-function render($value): string
+function render(array $value): string
 {
     $iter = function ($currentValue, $keys, $action = '') use (&$iter) {
         $property = implode(".", $keys);
@@ -37,7 +37,7 @@ function render($value): string
     return "{$iter($value, [], '')}\n";
 }
 
-function handleValue($value, $each = false)
+function handleValue(mixed $value, bool $each = false): mixed
 {
     if (is_array($value) || is_object($value)) {
         if (is_array($value) && $each) {
@@ -47,5 +47,5 @@ function handleValue($value, $each = false)
     } elseif (!is_string($value)) {
         return toString($value);
     }
-    return $value = "'{$value}'";
+    return "'{$value}'";
 }

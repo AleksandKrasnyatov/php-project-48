@@ -4,9 +4,11 @@ namespace Package\Parsers;
 
 use Symfony\Component\Yaml\Yaml;
 
-function parse(string $fileName)
+function parse(string $fileName): mixed
 {
-    $content = file_get_contents($fileName);
+    if (!$content = file_get_contents($fileName)) {
+        return 'thats mistake here in reading file';
+    }
     if (str_contains($fileName, 'yml') || str_contains($fileName, 'yaml')) {
         return Yaml::parse($content, Yaml::PARSE_OBJECT_FOR_MAP);
     } if (str_contains($fileName, 'json')) {

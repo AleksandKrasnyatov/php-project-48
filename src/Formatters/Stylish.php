@@ -4,7 +4,7 @@ namespace Package\Formatters\Stylish;
 
 use function Package\Formatters\toString;
 
-function render($value, string $replacer = ' ', int $spacesCount = 4): string
+function render(array $value, string $replacer = ' ', int $spacesCount = 4): string
 {
     $iter = function ($currentValue, $depth) use (&$iter, $replacer, $spacesCount) {
         if (!is_array($currentValue) && !is_object($currentValue)) {

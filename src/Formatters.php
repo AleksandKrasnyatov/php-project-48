@@ -20,7 +20,7 @@ function render(array $items, string $format): string
     }
 }
 
-function toString($value)
+function toString(mixed $value)
 {
     if (is_null($value)) {
         return trim('null', "'");

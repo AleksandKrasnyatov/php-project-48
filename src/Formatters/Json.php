@@ -2,21 +2,20 @@
 
 namespace Package\Formatters\Json;
 
-function render($value): string
+function render(array $value): string
 {
-    $value = handleKeys($value);
-    return json_encode($value, JSON_PRETTY_PRINT);
+    return json_encode(handleKeys($value), JSON_PRETTY_PRINT);
 }
 
-function handleKeys($data)
+function handleKeys(array $data): array
 {
     $result = [];
     foreach ($data as $key => $item) {
-        $key = trim($key);
+        $trimmedKey = trim($key);
         if (is_array($item)) {
-            $result[$key] = handleKeys($item);
+            $result[$trimmedKey] = handleKeys($item);
         } else {
-            $result[$key] = $item;
+            $result[$trimmedKey] = $item;
         }
     }
     return $result;
