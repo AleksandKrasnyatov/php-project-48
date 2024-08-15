@@ -30,7 +30,7 @@ function genDiff(string $pathToFile1, string $pathToFile2, string $format = 'sty
     return render($differences, $format);
 }
 
-function compare(Object $data1, Object $data2, bool $plain = false): array
+function compare(object $data1, object $data2, bool $plain = false): array
 {
     $result = [];
     $usedKeys = [];
@@ -59,7 +59,7 @@ function compare(Object $data1, Object $data2, bool $plain = false): array
     return $result;
 }
 
-function getObjectKeys(Object $data): array
+function getObjectKeys(object $data): array
 {
     $keys = [];
     foreach ($data as $key => $value) {
