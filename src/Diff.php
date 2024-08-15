@@ -1,6 +1,6 @@
 <?php
 
-namespace Package\Diff;
+namespace Differ\Differ;
 
 use function Package\Parsers\parse;
 use function Package\Formatters\render;
