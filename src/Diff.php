@@ -67,7 +67,7 @@ function bubbleSort(array $data): array
 
     return array_reduce($data, function ($result, $item) use ($findFirst, &$tempData) {
         $first = $findFirst($tempData);
-        unset($tempData[array_search($first, $tempData)]);
+        unset($tempData[array_search($first, $tempData, false)]);
         return array_merge($result, [$first]);
     }, []);
 }
