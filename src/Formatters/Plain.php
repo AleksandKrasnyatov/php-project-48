@@ -23,8 +23,7 @@ function render(array $value): string
         }
         $lines = array_map(function ($key, $val) use ($keys, $iter) {
             $prefix = mb_substr((string)$key, 0, 2);
-            $curKeys = $keys;
-            $curKeys[] = mb_substr((string)$key, 2);
+            $curKeys = array_merge($keys, [mb_substr((string)$key, 2)]);
             if ($prefix == '  ' && is_array($val)) {
                 return $iter($val, $curKeys, '');
             } elseif ($prefix == '+ ') {
