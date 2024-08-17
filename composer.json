@@ -16,7 +16,8 @@
     },
     "require": {
         "docopt/docopt": "^1.0",
-        "symfony/yaml": "^6.4"
+        "symfony/yaml": "^6.4",
+        "ext-mbstring": "*"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "*",

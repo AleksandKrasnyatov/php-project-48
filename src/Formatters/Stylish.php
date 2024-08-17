@@ -15,11 +15,10 @@ function render(array $value, string $replacer = ' ', int $spacesCount = 4): str
         $currentIndentArr = str_repeat($replacer, $indentSize - $offset);
         $currentIndentObj = str_repeat($replacer, $indentSize);
         $bracketIndent = str_repeat($replacer, $indentSize - $spacesCount);
-        $lines = [];
         if (is_object($currentValue)) {
-            foreach ($currentValue as $key => $value) {
-                $lines[] = "{$currentIndentObj}{$key}: {$iter($value, $depth + 1)}";
-            }
+            $lines = array_map(function ($key, $value) use ($depth, $iter, $currentIndentObj) {
+                return "{$currentIndentObj}{$key}: {$iter($value, $depth + 1)}";
+            }, array_keys((array)$currentValue), (array)$currentValue);
         } else {
             $lines = array_map(
                 function ($key, $val) use ($iter, $depth, $currentIndentArr) {

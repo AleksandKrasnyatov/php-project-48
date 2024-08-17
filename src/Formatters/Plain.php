@@ -9,39 +9,40 @@ function render(array $value): string
     $iter = function ($currentValue, $keys, $action = '') use (&$iter) {
         $property = implode(".", $keys);
         if ($action === "added") {
-            $currentValue = handleValue($currentValue);
-            return "Property '{$property}' was added with value: {$currentValue}";
+            $value = handleValue($currentValue);
+            return "Property '{$property}' was added with value: {$value}";
         } elseif ($action === "removed") {
             return "Property '{$property}' was removed";
         } elseif ($action === "diff") {
-            $currentValue = handleValue($currentValue, true);
-            return "Property '{$property}' was updated. From {$currentValue[0]} to $currentValue[1]";
+            $value = handleValue($currentValue, true);
+            return "Property '{$property}' was updated. From {$value[0]} to $value[1]";
         }
-        $lines = [];
-        foreach ($currentValue as $key => $val) {
+        $lines = array_map(function ($key, $val) use ($keys, $iter) {
             $prefix = mb_substr($key, 0, 2);
             $curKeys = $keys;
             $curKeys[] = mb_substr($key, 2);
             if ($prefix == '  ' && is_array($val)) {
-                $lines[] = $iter($val, $curKeys, '');
+                return $iter($val, $curKeys, '');
             } elseif ($prefix == '+ ') {
-                $lines[] = $iter($val, $curKeys, "added");
+                return $iter($val, $curKeys, "added");
             } elseif ($prefix == '- ') {
-                $lines[] = $iter($val, $curKeys, "removed");
+                return $iter($val, $curKeys, "removed");
             } elseif (str_contains($key, '-+')) {
-                $lines[] = $iter([$val[0], $val[1]], $curKeys, "diff");
+                return $iter([$val[0], $val[1]], $curKeys, "diff");
             }
-        }
-        return implode("\n", $lines);
+            return null;
+        }, array_keys($currentValue), array_values($currentValue));
+
+        return implode("\n", array_filter($lines));
     };
     return "{$iter($value, [], '')}\n";
 }
 
-function handleValue(mixed $value, bool $each = false): mixed
+function handleValue(mixed $value, bool $each = false): string|array
 {
     if (is_array($value) || is_object($value)) {
         if (is_array($value) && $each) {
-            return array_map(fn ($item) => handleValue($item), $value);
+            return array_map(fn($item) => handleValue($item), $value);
         }
         return "[complex value]";
     } elseif (!is_string($value)) {

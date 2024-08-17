@@ -8,19 +8,14 @@ use function Package\Formatters\Json\render as jsonRender;
 
 function render(array $items, string $format): string
 {
-    switch ($format) {
-        case 'plain':
-            return plainRender($items);
-        case 'stylish':
-            return stylishRender($items);
-        case 'json':
-            return jsonRender($items);
-        default:
-            return stylishRender($items);
-    }
+    return match ($format) {
+        'plain' => plainRender($items),
+        'json' => jsonRender($items),
+        default => stylishRender($items),
+    };
 }
 
-function toString(mixed $value)
+function toString(mixed $value): string
 {
     if (is_null($value)) {
         return trim('null', "'");

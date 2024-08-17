@@ -2,8 +2,8 @@
 
 namespace Differ\Differ;
 
-use function Package\Parsers\parse;
 use function Package\Formatters\render;
+use function Package\Parsers\parse;
 
 function genDiff(string $pathToFile1, string $pathToFile2, string $format = 'stylish'): string
 {
@@ -29,13 +29,10 @@ function genDiff(string $pathToFile1, string $pathToFile2, string $format = 'sty
 
 function compare(object $data1, object $data2, bool $plain = false): array
 {
-    $result = [];
-    $usedKeys = [];
-    $keys1 = getObjectKeys($data1);
-    $keys2 = getObjectKeys($data2);
-    $allUniqueKeys = array_merge($keys1, $keys2);
+    $allUniqueKeys = array_merge(array_keys((array)$data1), array_keys((array)$data2));
     $sortingRes = sort($allUniqueKeys);
-    foreach ($allUniqueKeys as $key) {
+
+    return array_reduce($allUniqueKeys, function ($result, $key) use ($data1, $data2, $plain) {
         if (!property_exists($data1, $key)) {
             $result["+ {$key}"] = $data2->$key;
         } elseif (!property_exists($data2, $key)) {
@@ -52,15 +49,6 @@ function compare(object $data1, object $data2, bool $plain = false): array
                 $result["+ {$key}"] = $data2->$key;
             }
         }
-    }
-    return $result;
-}
-
-function getObjectKeys(\stdClass $data): array
-{
-    $keys = [];
-    foreach ($data as $key => $value) {
-        $keys[] = $key;
-    }
-    return $keys;
+        return $result;
+    }, []);
 }
