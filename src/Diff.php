@@ -52,16 +52,22 @@ function compare(object $data1, object $data2, bool $plain = false): array
     }, []);
 }
 
-function bubbleSort(array $items): array
+function bubbleSort(array $data): array
 {
-    for ($limit = count($items) - 1; $limit > 0; $limit -= 1) {
-        for ($i = 0; $i < $limit; $i += 1) {
-            if ($items[$i] > $items[$i + 1]) {
-                $temporary = $items[$i];
-                $items[$i] = $items[$i + 1];
-                $items[$i + 1] = $temporary;
+    $findFirst = function ($array) {
+        return array_reduce($array, function ($result, $item) {
+            if ($item < $result) {
+                return $item;
             }
-        }
-    }
-    return $items;
+            return $result;
+        }, current($array));
+    };
+
+    $tempData = $data;
+
+    return array_reduce($data, function ($result, $item) use ($findFirst, &$tempData) {
+        $first = $findFirst($tempData);
+        unset($tempData[array_search($first, $tempData)]);
+        return array_merge($result, [$first]);
+    }, []);
 }
