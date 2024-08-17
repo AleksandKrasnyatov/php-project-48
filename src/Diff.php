@@ -30,11 +30,8 @@ function genDiff(string $pathToFile1, string $pathToFile2, string $format = 'sty
 function compare(object $data1, object $data2, bool $plain = false): array
 {
     $allUniqueKeys = array_merge(array_keys((array)$data1), array_keys((array)$data2));
-    if (!sort($allUniqueKeys)) {
-        return ['sorting error'];
-    }
 
-    return array_reduce($allUniqueKeys, function ($result, $key) use ($data1, $data2, $plain) {
+    return array_reduce(bubbleSort($allUniqueKeys), function ($result, $key) use ($data1, $data2, $plain) {
         if (!property_exists($data1, $key)) {
             return array_merge($result, ["+ {$key}" => $data2->$key]);
         } elseif (!property_exists($data2, $key)) {
@@ -53,4 +50,18 @@ function compare(object $data1, object $data2, bool $plain = false): array
             ]);
         }
     }, []);
+}
+
+function bubbleSort(array $items): array
+{
+    for ($limit = count($items) - 1; $limit > 0; $limit -= 1) {
+        for ($i = 0; $i < $limit; $i += 1) {
+            if ($items[$i] > $items[$i + 1]) {
+                $temporary = $items[$i];
+                $items[$i] = $items[$i + 1];
+                $items[$i + 1] = $temporary;
+            }
+        }
+    }
+    return $items;
 }
