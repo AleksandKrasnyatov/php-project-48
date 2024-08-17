@@ -10,24 +10,28 @@ function render(array $value): string
         $property = implode(".", $keys);
         if ($action === "added") {
             $value = handleValue($currentValue);
-            return "Property '{$property}' was added with value: {$value}";
+            if (is_string($value)) {
+                return "Property '{$property}' was added with value: {$value}";
+            }
         } elseif ($action === "removed") {
             return "Property '{$property}' was removed";
         } elseif ($action === "diff") {
             $value = handleValue($currentValue, true);
-            return "Property '{$property}' was updated. From {$value[0]} to $value[1]";
+            if (is_array($value)) {
+                return "Property '{$property}' was updated. From {$value[0]} to $value[1]";
+            }
         }
         $lines = array_map(function ($key, $val) use ($keys, $iter) {
-            $prefix = mb_substr($key, 0, 2);
+            $prefix = mb_substr((string)$key, 0, 2);
             $curKeys = $keys;
-            $curKeys[] = mb_substr($key, 2);
+            $curKeys[] = mb_substr((string)$key, 2);
             if ($prefix == '  ' && is_array($val)) {
                 return $iter($val, $curKeys, '');
             } elseif ($prefix == '+ ') {
                 return $iter($val, $curKeys, "added");
             } elseif ($prefix == '- ') {
                 return $iter($val, $curKeys, "removed");
-            } elseif (str_contains($key, '-+')) {
+            } elseif (str_contains((string)$key, '-+')) {
                 return $iter([$val[0], $val[1]], $curKeys, "diff");
             }
             return null;
