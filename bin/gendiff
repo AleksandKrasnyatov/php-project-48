@@ -34,4 +34,4 @@ if (file_exists($autoloadPath1)) {
     $firstFilePath = $result['<firstFile>'];
     $secondFilePath = $result['<secondFile>'];
 
-    echo(genDiff($firstFilePath, $secondFilePath, $foghggrmat));
+    echo(genDiff($firstFilePath, $secondFilePath, $format));
