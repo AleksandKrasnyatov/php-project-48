@@ -2,7 +2,7 @@
 
 namespace Package\Phpunit\Diff;
 
-use PHPUnit\Frameork\TestCase;
+use PHPUnit\Framework\TestCase;
 
 use function Differ\Differ\genDiff;
 
